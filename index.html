@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Gestión Académica</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>🎓 Sistema de Gestión Académica</h1>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="btn secondary">🌙 Modo oscuro</button>
+        <button id="exportBtn" class="btn secondary">Exportar JSON</button>
+        <label for="importInput" class="btn secondary">Importar JSON</label>
+        <input id="importInput" type="file" accept="application/json" hidden />
+      </div>
+    </header>
+
+    <main>
+      <section class="card grid-2">
+        <article>
+          <h2>Carreras</h2>
+          <form id="careerForm" class="inline-form">
+            <input id="careerName" placeholder="Nombre de carrera" required />
+            <button class="btn">Guardar</button>
+          </form>
+          <ul id="careerList" class="simple-list"></ul>
+        </article>
+
+        <article>
+          <h2>Periodos</h2>
+          <form id="periodForm" class="inline-form">
+            <input id="periodName" placeholder="Ej: 2026-A" required />
+            <button class="btn">Guardar</button>
+          </form>
+          <ul id="periodList" class="simple-list"></ul>
+        </article>
+      </section>
+
+      <section class="card">
+        <h2>Clases</h2>
+        <form id="classForm" class="inline-form grid-4">
+          <input id="classCode" placeholder="Código" required />
+          <input id="className" placeholder="Nombre" required />
+          <input id="classCapacity" type="number" min="1" placeholder="Cupo" required />
+          <button class="btn">Agregar clase</button>
+        </form>
+        <ul id="classList" class="simple-list"></ul>
+      </section>
+
+      <section class="card">
+        <h2>Alumnos</h2>
+        <form id="studentForm" class="inline-form grid-4">
+          <input id="studentName" placeholder="Nombre completo" required />
+          <input id="studentDoc" placeholder="Documento" required />
+          <select id="studentCareer" required></select>
+          <select id="studentPeriod" required></select>
+          <button class="btn">Registrar alumno</button>
+        </form>
+
+        <div class="toolbar">
+          <input id="searchInput" placeholder="Buscar alumno..." />
+          <select id="filterCareer"><option value="">Todas las carreras</option></select>
+          <select id="filterPeriod"><option value="">Todos los periodos</option></select>
+          <select id="pageSize">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+          <button id="printBtn" class="btn secondary">Imprimir</button>
+        </div>
+
+        <div id="loading" class="skeleton-wrap" aria-hidden="true">
+          <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+        </div>
+
+        <table id="studentTable" class="hidden">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Documento</th>
+              <th>Carrera</th>
+              <th>Periodo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <div class="pager">
+          <button id="prevPage" class="btn secondary">Anterior</button>
+          <span id="pageInfo">1 / 1</span>
+          <button id="nextPage" class="btn secondary">Siguiente</button>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+    <dialog id="confirmDialog">
+      <p id="confirmText">¿Continuar?</p>
+      <menu>
+        <button id="cancelConfirm" class="btn secondary">Cancelar</button>
+        <button id="okConfirm" class="btn danger">Eliminar</button>
+      </menu>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
