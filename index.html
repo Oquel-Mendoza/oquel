@@ -8,7 +8,18 @@
   </head>
   <body>
     <main class="container">
-      <h1>Sistema académico (LocalStorage)</h1>
+      <header class="topbar">
+        <h1>Sistema académico (LocalStorage)</h1>
+        <div class="topbar-actions">
+          <button id="btn-theme" type="button">🌙 Modo oscuro</button>
+          <button id="btn-export" type="button">Exportar backup</button>
+          <label class="import-btn">
+            Importar backup
+            <input id="import-file" type="file" accept="application/json" />
+          </label>
+          <button id="btn-print" type="button">Imprimir</button>
+        </div>
+      </header>
 
       <section class="panel" id="configuracion">
         <h2>Configuración</h2>
@@ -38,6 +49,10 @@
             <label>
               Código
               <input type="text" id="clase-codigo" required />
+            </label>
+            <label>
+              Cupo máximo
+              <input type="number" id="clase-cupo" min="1" value="30" required />
             </label>
             <button type="submit">Guardar clase</button>
             <ul id="lista-clases"></ul>
@@ -75,7 +90,7 @@
 
       <section class="panel" id="principal">
         <h2>Principal</h2>
-        <p>Asocia carrera con año, año con clases y año con alumnos.</p>
+        <p>Asocia carrera con año, año con clases y matrículas de alumnos por clase.</p>
 
         <div class="grid">
           <form id="form-carrera-anio" class="card">
@@ -106,23 +121,47 @@
             <ul id="lista-anio-clase"></ul>
           </form>
 
-          <form id="form-anio-alumno" class="card">
-            <h3>Asociar año con alumno</h3>
+          <form id="form-matricula" class="card">
+            <h3>Matrícula (alumno-año-clase)</h3>
             <label>
               Año
-              <select id="select-anio-alumno" required></select>
+              <select id="select-anio-matricula" required></select>
+            </label>
+            <label>
+              Clase
+              <select id="select-clase-matricula" required></select>
             </label>
             <label>
               Alumno
-              <select id="select-alumno" required></select>
+              <select id="select-alumno-matricula" required></select>
             </label>
-            <button type="submit">Asociar</button>
-            <ul id="lista-anio-alumno"></ul>
+            <button type="submit">Matricular</button>
+            <ul id="lista-matriculas"></ul>
           </form>
         </div>
 
         <div class="card">
-          <h3>Tabla general de alumnos</h3>
+          <h3>Tabla general de matrículas</h3>
+
+          <div class="filters no-print">
+            <input id="search-input" type="text" placeholder="Buscar por alumno, documento, clase, año o carrera" />
+            <select id="filter-anio"></select>
+            <select id="filter-carrera"></select>
+            <select id="page-size">
+              <option value="10">10 por página</option>
+              <option value="20">20 por página</option>
+              <option value="50">50 por página</option>
+              <option value="all">Todos</option>
+            </select>
+          </div>
+
+          <div id="table-skeleton" class="skeleton-wrap" aria-hidden="true">
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+          </div>
+
           <div class="table-wrap">
             <table>
               <thead>
@@ -131,15 +170,35 @@
                   <th>Documento</th>
                   <th>Carrera</th>
                   <th>Año</th>
-                  <th>Clases</th>
+                  <th>Clase</th>
+                  <th class="no-print">Acciones</th>
                 </tr>
               </thead>
               <tbody id="tabla-alumnos-body"></tbody>
             </table>
           </div>
+
+          <div class="pagination no-print">
+            <button id="prev-page" type="button">Anterior</button>
+            <span id="page-info">Página 1</span>
+            <button id="next-page" type="button">Siguiente</button>
+          </div>
         </div>
       </section>
     </main>
+
+    <div id="modal" class="modal" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <h3 id="modal-title">Confirmación</h3>
+        <p id="modal-message"></p>
+        <div class="modal-actions">
+          <button id="modal-cancel" type="button" class="btn-secondary">Cancelar</button>
+          <button id="modal-confirm" type="button">Confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
 
     <script src="app.js"></script>
   </body>
