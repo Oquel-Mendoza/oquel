@@ -1,45 +1,49 @@
-# Sistema de Registro Académico
+# 🎓 Sistema de Gestión Académica (Frontend)
 
-Un sistema integral para la gestión y registro de alumnos, carreras, clases y periodos académicos. Este proyecto asegura la integridad de los datos educativos mediante restricciones lógicas y validaciones de dependencias.
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-
+Un prototipo interactivo y reactivo para la administración de registros académicos. Este sistema gestiona entidades clave (Alumnos, Carreras, Clases y Periodos Escolares) asegurando la integridad de los datos y aplicando reglas de negocio estrictas directamente desde el cliente utilizando `LocalStorage`.
 
 ## 📋 Descripción del Proyecto
 
-El objetivo principal de este sistema es administrar el flujo académico de una institución, desde la apertura de un año escolar y el registro de la oferta académica (carreras y clases), hasta la matriculación de los alumnos. Todo el sistema está respaldado por reglas lógicas que impiden inconsistencias (como inscribir a un alumno en una clase sin cupo o en un año escolar cerrado).
+Este proyecto nace con el objetivo de estructurar una interfaz limpia y minimalista para el control escolar, enfocándose en la experiencia del usuario (UX) y en la prevención de inconsistencias en los datos. Toda la información se persiste localmente en el navegador, simulando el comportamiento de una base de datos relacional a través de arreglos y objetos en JavaScript.
 
-## 🏗️ Entidades Principales
+## ✨ Funcionalidades Principales
 
-* **Alumnos:** Información personal, matrícula única, estado (activo, egresado, baja).
-* **Carreras:** Programas de estudio ofrecidos por la institución, duración y créditos totales.
-* **Clases (Asignaturas):** Materias específicas asociadas a una carrera, con información sobre cupos y créditos.
-* **Año Escolar (Periodo/Ciclo):** Periodos lectivos de la institución (ej. 2026-I, 2026-II) con fechas de inicio, fin y estado (abierto/cerrado).
+### 🧠 Lógica y Reglas de Negocio
+* **Identificadores Únicos (UUID):** Relaciones basadas en IDs internos para mantener la integridad aunque los nombres de los registros cambien.
+* **Prevención de Duplicidad:** Bloqueo de registros con códigos de clase o documentos de identidad repetidos.
+* **Integridad Referencial:** Restricción de borrado para Carreras o Años Escolares que ya posean alumnos matriculados.
+* **Control de Cupos:** Límite de capacidad por clase y prevención de doble matrícula para un mismo alumno en un periodo.
 
-## 🧠 Lógica de Negocio y Restricciones
+### 🖥️ Interfaz Reactiva y UX
+* **Motor de Búsqueda en Tiempo Real:** Filtrado dinámico de la tabla de alumnos sin recargar la página.
+* **Sistema de Modales y Toasts:** Interacciones no bloqueantes para confirmaciones de borrado y notificaciones de éxito, reemplazando las alertas nativas del navegador.
+* **Paginación y Filtros Cruzados:** Control total sobre la visualización del volumen de datos (10, 20, 50 registros) y filtros combinados por año y carrera.
+* **Soporte para Modo Oscuro (Dark Mode):** Interfaz adaptable a las preferencias del usuario mediante variables CSS.
+* **Skeleton Loaders:** Animaciones de carga que mejoran la percepción de rendimiento al inicializar el sistema.
 
-El sistema implementa las siguientes reglas para garantizar la integridad referencial y operativa:
+### 🛠️ Herramientas de Persistencia
+* **Importar / Exportar JSON:** Capacidad de serializar todo el estado del `LocalStorage` para descargar copias de seguridad y restaurarlas posteriormente.
+* **Impresión Contextual:** Estilos CSS dedicados (`@media print`) para generar reportes limpios y listos para PDF o papel.
 
-### 1. Restricciones de Matrícula (Alumnos y Clases)
-* **Validación de Año Escolar:** Un alumno solo puede inscribirse en clases si el `año_escolar` correspondiente tiene el estado "Abierto".
-* **Límite de Cupos:** Una clase no puede aceptar más alumnos de los definidos en su capacidad máxima (ej. 30 alumnos por clase). Si el cupo está lleno, el registro se rechaza.
-* **Unicidad:** Un alumno no puede registrarse dos veces en la misma clase durante el mismo año escolar.
+## 🏗️ Arquitectura y Tecnologías
 
-### 2. Restricciones de Carreras y Clases
-* **Pertenencia:** Una clase debe pertenecer obligatoriamente a una o más carreras.
-* **Prerrequisitos (Opcional):** Para registrar una clase avanzada, el sistema verifica si el alumno aprobó la clase requisito en un año escolar anterior.
+El proyecto está construido enteramente con tecnologías web nativas, sin dependencias externas pesadas, estructurando la lógica en módulos preparados para escalar:
 
-### 3. Integridad de Datos (Eliminación en Cascada/Restringida)
-* **Protección de Historial:** No se puede eliminar una `Carrera` si existen `Alumnos` registrados en ella.
-* **Cierre de Ciclo:** Un `año_escolar` finalizado no puede ser modificado ni eliminado, preservando el registro histórico de las notas y clases cursadas.
+* **Estructura y Estilos:** HTML Semántico y CSS Vanilla (Flexbox/Grid, Variables CSS).
+* **Interactividad y Lógica:** JavaScript (ES6+). Manipulación del DOM, Promesas para modales, y funciones de orden superior (`filter`, `map`, `some`) para el procesamiento de datos.
 
-## 🛠️ Tecnologías Sugeridas
-*(Modifica esta sección según las herramientas que decidas utilizar)*
-* **Backend / Lógica:** Orientado a objetos (ej. C#, PHP o similar)
-* **Frontend:** HTML, CSS, JavaScript
-* **Base de Datos:** Relacional (MySQL, SQL Server, PostgreSQL) para manejar llaves foráneas y constraints.
+### 🚀 Roadmap y Próximos Pasos
 
-## 🚀 Instalación y Configuración
+La arquitectura actual sienta las bases ideales para una futura migración hacia la Programación Orientada a Objetos (POO). El siguiente paso natural en la evolución de este sistema es trasladar la lógica de validación a un backend sólido (utilizando C# o PHP) y conectar la interfaz a una base de datos relacional (como MySQL o SQL Server).
 
-1. Clonar el repositorio:
+## ⚙️ Instalación y Uso
+
+Dado que es un proyecto frontend puro, no requiere configuración de servidores locales ni dependencias de Node.js para funcionar.
+
+1. Clona este repositorio:
    ```bash
-   git clone [https://github.com/Oquel-Mendoza/oquel.git](https://github.com/Oquel-Mendoza/oquel.git)
+   git clone [https://github.com/tu-usuario/sistema-academico.git](https://github.com/tu-usuario/sistema-academico.git)
