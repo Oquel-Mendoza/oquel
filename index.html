@@ -7,12 +7,28 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+      <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M12 3 1 8l11 5 9-4.09V17h2V8L12 3Zm-7 9.18V16c0 2.21 3.13 4 7 4s7-1.79 7-4v-3.82l-7 3.18-7-3.18Z"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 14.97A9 9 0 1 1 9.03 3 7 7 0 0 0 21 14.97Z"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16 1.5 2.5L16 6l-2.5 1.5L12 10 10.5 7.5 8 6l2.5-1.5L12 2ZM2 13h3v-2H2v2Zm17 0h3v-2h-3v2ZM5.64 19.78l2.12-2.12-1.41-1.41-2.12 2.12 1.41 1.41Zm12.72 0 1.41-1.41-2.12-2.12-1.41 1.41 2.12 2.12ZM5.64 4.22 4.22 5.64l2.12 2.12 1.41-1.41-2.11-2.13Zm12.72 0-2.12 2.12 1.41 1.41 2.12-2.12-1.41-1.41ZM13 22v-3h-2v3h2Z"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M19 15v4H5v-4H3v6h18v-6h-2Zm-8 1h2V8h3l-4-5-4 5h3v8Z"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M19 15v4H5v-4H3v6h18v-6h-2ZM11 3v8H8l4 5 4-5h-3V3h-2Z"/></symbol>
+      <symbol id="i-printer" viewBox="0 0 24 24"><path d="M19 8H5a3 3 0 0 0-3 3v5h4v5h12v-5h4v-5a3 3 0 0 0-3-3Zm-3 11H8v-5h8v5Zm3-9a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM18 3H6v4h12V3Z"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.47 6.47 0 1 0-.71.71l.27.28v.79L20 21.5 21.5 20 15.5 14Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M9 3h6l1 2h5v2H3V5h5l1-2Zm1 6h2v9h-2V9Zm4 0h2v9h-2V9ZM7 9h2v9H7V9Z"/></symbol>
+      <symbol id="i-warning" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21Zm12-3h-2v-2h2v2Zm0-4h-2v-4h2v4Z"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m9 16.17-3.88-3.88L3.7 13.7 9 19l12-12-1.41-1.41z"/></symbol>
+    </svg>
+
     <header class="topbar">
-      <h1>🎓 Sistema de Gestión Académica</h1>
+      <h1>
+        <svg class="icon"><use href="#i-graduation"></use></svg>
+        Sistema de Gestión Académica
+      </h1>
       <div class="topbar-actions">
-        <button id="themeToggle" class="btn secondary">🌙 Modo oscuro</button>
-        <button id="exportBtn" class="btn secondary">Exportar JSON</button>
-        <label for="importInput" class="btn secondary">Importar JSON</label>
+        <button id="themeToggle" class="btn secondary icon-btn"><svg class="icon"><use href="#i-moon"></use></svg><span>Modo oscuro</span></button>
+        <button id="exportBtn" class="btn secondary icon-btn"><svg class="icon"><use href="#i-download"></use></svg><span>Exportar JSON</span></button>
+        <label for="importInput" class="btn secondary icon-btn"><svg class="icon"><use href="#i-upload"></use></svg><span>Importar JSON</span></label>
         <input id="importInput" type="file" accept="application/json" hidden />
       </div>
     </header>
@@ -20,47 +36,47 @@
     <main>
       <section class="card grid-2">
         <article>
-          <h2>Carreras</h2>
-          <form id="careerForm" class="inline-form">
-            <input id="careerName" placeholder="Nombre de carrera" required />
-            <button class="btn">Guardar</button>
+          <h2>Catálogo de Carreras</h2>
+          <form id="careerForm" class="matricula-form compact">
+            <div class="field"><label for="careerName">Nombre de carrera</label><input id="careerName" placeholder="Ej: Ingeniería de Sistemas" required /></div>
+            <button class="btn">Registrar carrera</button>
           </form>
           <ul id="careerList" class="simple-list"></ul>
         </article>
 
         <article>
-          <h2>Periodos</h2>
-          <form id="periodForm" class="inline-form">
-            <input id="periodName" placeholder="Ej: 2026-A" required />
-            <button class="btn">Guardar</button>
+          <h2>Catálogo de Periodos</h2>
+          <form id="periodForm" class="matricula-form compact">
+            <div class="field"><label for="periodName">Periodo académico</label><input id="periodName" placeholder="Ej: 2026-A" required /></div>
+            <button class="btn">Registrar periodo</button>
           </form>
           <ul id="periodList" class="simple-list"></ul>
         </article>
       </section>
 
       <section class="card">
-        <h2>Clases</h2>
-        <form id="classForm" class="inline-form grid-4">
-          <input id="classCode" placeholder="Código" required />
-          <input id="className" placeholder="Nombre" required />
-          <input id="classCapacity" type="number" min="1" placeholder="Cupo" required />
+        <h2>Oferta de Clases</h2>
+        <form id="classForm" class="matricula-form">
+          <div class="field"><label for="classCode">Código</label><input id="classCode" placeholder="MAT-101" required /></div>
+          <div class="field"><label for="className">Nombre</label><input id="className" placeholder="Matemática I" required /></div>
+          <div class="field"><label for="classCapacity">Cupo máximo</label><input id="classCapacity" type="number" min="1" placeholder="40" required /></div>
           <button class="btn">Agregar clase</button>
         </form>
         <ul id="classList" class="simple-list"></ul>
       </section>
 
       <section class="card">
-        <h2>Alumnos</h2>
-        <form id="studentForm" class="inline-form grid-4">
-          <input id="studentName" placeholder="Nombre completo" required />
-          <input id="studentDoc" placeholder="Documento" required />
-          <select id="studentCareer" required></select>
-          <select id="studentPeriod" required></select>
-          <button class="btn">Registrar alumno</button>
+        <h2>Matrícula de Alumnos</h2>
+        <form id="studentForm" class="matricula-form">
+          <div class="field"><label for="studentName">Nombre completo</label><input id="studentName" placeholder="Nombre y apellidos" required /></div>
+          <div class="field"><label for="studentDoc">Documento</label><input id="studentDoc" placeholder="DNI / Cédula" required /></div>
+          <div class="field"><label for="studentCareer">Carrera</label><select id="studentCareer" required></select></div>
+          <div class="field"><label for="studentPeriod">Periodo</label><select id="studentPeriod" required></select></div>
+          <button class="btn">Registrar matrícula</button>
         </form>
 
         <div class="toolbar">
-          <input id="searchInput" placeholder="Buscar alumno..." />
+          <div class="search-wrap"><svg class="icon"><use href="#i-search"></use></svg><input id="searchInput" placeholder="Buscar alumno..." /></div>
           <select id="filterCareer"><option value="">Todas las carreras</option></select>
           <select id="filterPeriod"><option value="">Todos los periodos</option></select>
           <select id="pageSize">
@@ -68,7 +84,7 @@
             <option value="20">20</option>
             <option value="50">50</option>
           </select>
-          <button id="printBtn" class="btn secondary">Imprimir</button>
+          <button id="printBtn" class="btn secondary icon-btn"><svg class="icon"><use href="#i-printer"></use></svg><span>Imprimir</span></button>
         </div>
 
         <div id="loading" class="skeleton-wrap" aria-hidden="true">
@@ -96,9 +112,15 @@
       </section>
     </main>
 
-    <div id="toast" class="toast"></div>
-    <dialog id="confirmDialog">
-      <p id="confirmText">¿Continuar?</p>
+    <div id="toast" class="toast"><svg class="icon"><use href="#i-check"></use></svg><span id="toastText"></span></div>
+    <dialog id="confirmDialog" class="confirm-modal">
+      <div class="confirm-head">
+        <div class="warn-badge"><svg class="icon"><use href="#i-warning"></use></svg></div>
+        <div>
+          <h3>Confirmar acción</h3>
+          <p id="confirmText">¿Continuar?</p>
+        </div>
+      </div>
       <menu>
         <button id="cancelConfirm" class="btn secondary">Cancelar</button>
         <button id="okConfirm" class="btn danger">Eliminar</button>

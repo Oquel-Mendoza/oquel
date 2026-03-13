@@ -17,7 +17,7 @@ const uid = () => crypto.randomUUID();
 
 function toast(message) {
   const el = $('toast');
-  el.textContent = message;
+  $('toastText').textContent = message;
   el.classList.add('show');
   clearTimeout(toast.timer);
   toast.timer = setTimeout(() => el.classList.remove('show'), 1800);
@@ -58,14 +58,20 @@ function askConfirm(message) {
   });
 }
 
+
+function updateThemeButton() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  $('themeToggle').innerHTML = `<svg class="icon"><use href="${dark ? '#i-sun' : '#i-moon'}"></use></svg><span>${dark ? 'Modo claro' : 'Modo oscuro'}</span>`;
+}
+
 function renderCatalogs() {
   const careerList = $('careerList');
   const periodList = $('periodList');
   const classList = $('classList');
 
-  careerList.innerHTML = state.careers.map(c => `<li>${c.name}<button data-del-career="${c.id}" class="btn danger">Borrar</button></li>`).join('');
-  periodList.innerHTML = state.periods.map(p => `<li>${p.name}<button data-del-period="${p.id}" class="btn danger">Borrar</button></li>`).join('');
-  classList.innerHTML = state.classes.map(c => `<li>${c.code} · ${c.name} <small>(${c.enrolled}/${c.capacity})</small><button data-del-class="${c.id}" class="btn danger">Borrar</button></li>`).join('');
+  careerList.innerHTML = state.careers.map(c => `<li><span>${c.name}</span><button data-del-career="${c.id}" class="btn danger icon-btn"><svg class="icon"><use href="#i-trash"></use></svg><span>Eliminar</span></button></li>`).join('');
+  periodList.innerHTML = state.periods.map(p => `<li><span>${p.name}</span><button data-del-period="${p.id}" class="btn danger icon-btn"><svg class="icon"><use href="#i-trash"></use></svg><span>Eliminar</span></button></li>`).join('');
+  classList.innerHTML = state.classes.map(c => `<li><span>${c.code} · ${c.name} <small>(${c.enrolled}/${c.capacity})</small></span><button data-del-class="${c.id}" class="btn danger icon-btn"><svg class="icon"><use href="#i-trash"></use></svg><span>Eliminar</span></button></li>`).join('');
 
   const optionsCareers = '<option value="">Seleccione carrera</option>' + state.careers.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
   const optionsPeriods = '<option value="">Seleccione periodo</option>' + state.periods.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
@@ -103,7 +109,7 @@ function renderStudents() {
   $('studentTable').querySelector('tbody').innerHTML = rows.map((s) => {
     const career = state.careers.find(c => c.id === s.careerId)?.name || '-';
     const period = state.periods.find(p => p.id === s.periodId)?.name || '-';
-    return `<tr><td>${s.name}</td><td>${s.doc}</td><td>${career}</td><td>${period}</td><td><button class="btn danger" data-del-student="${s.id}">Borrar</button></td></tr>`;
+    return `<tr><td>${s.name}</td><td>${s.doc}</td><td>${career}</td><td>${period}</td><td><button class="btn danger icon-btn" data-del-student="${s.id}"><svg class="icon"><use href="#i-trash"></use></svg><span>Eliminar</span></button></td></tr>`;
   }).join('');
 }
 
@@ -208,6 +214,7 @@ function bindActions() {
     const current = document.documentElement.dataset.theme;
     document.documentElement.dataset.theme = current === 'dark' ? 'light' : 'dark';
     localStorage.setItem('theme', document.documentElement.dataset.theme);
+    updateThemeButton();
   });
 
   $('exportBtn').addEventListener('click', () => {
@@ -240,6 +247,7 @@ function bindActions() {
 
 function init() {
   document.documentElement.dataset.theme = localStorage.getItem('theme') || 'light';
+  updateThemeButton();
   $('loading').classList.remove('hidden');
   setTimeout(() => {
     load();
